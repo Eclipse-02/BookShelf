@@ -1,3 +1,4 @@
+import Header from '@/components/Header';
 import { api } from '@/services/api';
 import { ENDPOINTS } from '@/services/endpoints';
 import { useLocalSearchParams } from 'expo-router';
@@ -55,21 +56,10 @@ export default function DetailLayout() {
     }, [id]);
 
     return (
-        <SafeAreaView className="flex-1 bg-white">
+        <SafeAreaView className="flex-1 bg-gray-50 ">
 
             {/* Header */}
-            <View className="flex-row justify-between items-center px-6 py-4 border-b border-gray-200">
-                <Image
-                    source={{
-                        uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAjx3IgGxWxK9vwD90OVNH_FTkpZhfIYS_6xBhk_KWGrPG_rCG1iNjRBhuUAFXXBKquvzf_V5UF9ob0xF7-zO2oD89Kc0N-RMkHtSxAYLooyE845AL8N-AKAU5CWDVCnJ1HfDmX6dOagXPHfrGXvwjBawAQ6FuAr2PZDPgFXUsoBx84XA8nTSu_wzW5-eK4qGJpvH26-qaF4-e-WexmSAdHs_PMraLh5LDNVhbewG_cg4qiKvk1AqyfWJEtZFq1h4hHxHifdjwHfZw',
-                    }}
-                    className="w-10 h-10 rounded-full"
-                />
-
-                <Text className="text-xl font-semibold">BookShelf</Text>
-
-                <Text className="text-lg">🔔</Text>
-            </View>
+            <Header isDetail={true} />
 
             <ScrollView className="flex-1 px-4 py-6">
 
@@ -103,7 +93,7 @@ export default function DetailLayout() {
                 <View className="flex-row flex-wrap gap-3 mb-6 border-b border-gray-200 pb-4">
                     <TouchableOpacity className="bg-black px-4 py-2 rounded-full">
                         <Text className="text-white font-medium">
-                            ❤️ Add to Favorites
+                            Add to Favorites
                         </Text>
                     </TouchableOpacity>
 

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -11,6 +10,8 @@ import { api } from '@/services/api';
 import { ENDPOINTS } from '@/services/endpoints';
 import BookCard from '@/components/BookCard';
 import { router } from 'expo-router';
+import Header from '@/components/Header';
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
   const [books, setBooks] = useState<any[]>([]);
@@ -61,21 +62,10 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-white pt-12">
+    <View className="flex-1 bg-gray-50 mt-12">
 
       {/* Header */}
-      <View className="flex-row justify-between items-center px-6 py-4 border-b border-gray-200">
-        <Image
-          source={{
-            uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA4LWH6wIANwXzz6v_smP8oPSFjZQVdgouyWcXaYWJBcqoveO5FED5UKmrh2b_JTp0v4GpuNGyfMCJrCkPabrSAKvrrnUk7lOs-QnktQucVeXHfn2qgcqIPFg6ZzyDzUKcOiV_BKTT3MRg1P4s9rHZY29ksW6odfTDWyZsElCkQiqol38WgZJnyq1jxJya2fAEosiSwTgsMQyf89ZIgBWIfN5wMXNMxoSwvF9Ogt_qGRNwGel7zKiICJ8RjRMdimPssGPSIWeXARh0',
-          }}
-          className="w-8 h-8 rounded-full"
-        />
-
-        <Text className="text-xl font-semibold">BookShelf</Text>
-
-        <Text className="text-lg">🔔</Text>
-      </View>
+      <Header />
 
       <ScrollView
         className="flex-1"
@@ -86,8 +76,9 @@ export default function HomeScreen() {
         <View className="mb-8">
           <View className="flex-row justify-between items-center mb-3">
             <Text className="text-lg font-semibold">Trending Books</Text>
-            <TouchableOpacity>
-              <Text className="text-blue-500">View all →</Text>
+            <TouchableOpacity className="flex-row items-center gap-1">
+              <Text className="text-blue-500">View all</Text>
+              <MaterialIcons name="arrow-forward" size={18} color="blue" />
             </TouchableOpacity>
           </View>
 

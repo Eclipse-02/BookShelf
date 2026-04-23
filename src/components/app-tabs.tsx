@@ -1,3 +1,4 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import React from 'react';
 import { useColorScheme } from 'react-native';
@@ -12,22 +13,56 @@ export default function AppTabs() {
     <NativeTabs
       backgroundColor={colors.background}
       indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: colors.text } }}>
-      <NativeTabs.Trigger name="index">
+      labelStyle={{ selected: { color: colors.text } }}
+      iconColor={colors.text}>
+      <NativeTabs.Trigger name="HomeScreen">
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
-          renderingMode="template"
+          src={
+            <NativeTabs.Trigger.VectorIcon
+              family={Ionicons}
+              name="home"
+            />
+          }
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="explore">
-        <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
+      <NativeTabs.Trigger name="BookmarksScreen">
+        <NativeTabs.Trigger.Label>Bookmarks</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
+          src={
+            <NativeTabs.Trigger.VectorIcon
+              family={Ionicons}
+              name="bookmarks"
+            />
+          }
         />
       </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="SearchScreen">
+        <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={
+            <NativeTabs.Trigger.VectorIcon
+              family={Ionicons}
+              name="search"
+            />
+          }
+        />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="AboutScreen">
+        <NativeTabs.Trigger.Label>About</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={
+            <NativeTabs.Trigger.VectorIcon
+              family={Ionicons}
+              name="help-sharp"
+            />
+          }
+        />
+      </NativeTabs.Trigger>
+
     </NativeTabs>
   );
 }
