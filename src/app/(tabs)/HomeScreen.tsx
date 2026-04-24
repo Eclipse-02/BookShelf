@@ -1,65 +1,26 @@
-import { useEffect, useState, useCallback } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-import { api } from '@/services/api';
-import { ENDPOINTS } from '@/services/endpoints';
 import BookCard from '@/components/BookCard';
-import { router } from 'expo-router';
+import BookCardSkeleton from '@/components/BookCardSkeleton';
 import Header from '@/components/Header';
+import { useBooks } from '@/hooks/useBooks';
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from 'expo-router';
+import {
+  RefreshControl,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
 export default function HomeScreen() {
-  const [books, setBooks] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
-
-  const fetchBooks = async () => {
-    try {
-      setError(null);
-      const res = await api.get(ENDPOINTS.trending);
-      setBooks(res.data.works || []);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch books');
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchBooks();
-  }, []);
-
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" />
-        <Text className="mt-2 text-gray-600">Loading books...</Text>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View className="flex-1 justify-center items-center px-4">
-        <Text className="text-red-500 text-center">{error}</Text>
-        <TouchableOpacity onPress={fetchBooks}>
-          <Text className="mt-3 text-blue-500">Tap to retry</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  const {
+    previewBooks,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isRefetching,
+  } = useBooks();
 
   return (
     <View className="flex-1 bg-gray-50 mt-12">
@@ -68,8 +29,10 @@ export default function HomeScreen() {
       <Header />
 
       <ScrollView
-        className="flex-1"
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 16, paddingVertical: 16, paddingBottom: 80 }}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
+        className="flex-1 px-5 pt-4"
       >
 
         {/* Trending Section */}
@@ -84,21 +47,43 @@ export default function HomeScreen() {
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
 
-            {/* Card */}
-            {books.map((item) => (
-              <BookCard
-                key={item.key}
-                title={item.title}
-                author={item.authors?.[0]?.name}
-                onPress={() => {
-                  console.log('ID:', item.key);
-                  router.push({
-                    pathname: `/detail/[id]`,
-                    params: { id: item.key?.replace('/works/', '') },
-                  })
-                }}
-              />
-            ))}
+            {/* Error Message */}
+            {isError &&
+              <View className="flex-1 w-[90vw] justify-center items-center px-4">
+                <Text className="text-red-500 text-center">{(error as Error).message || 'An error occurred'}</Text>
+                <TouchableOpacity onPress={() => refetch()}>
+                  <Text className="mt-3 text-blue-500">Tap to retry</Text>
+                </TouchableOpacity>
+              </View>
+            }
+
+            {/* Skeleton Loader */}
+            {isLoading ? (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {[...Array(6)].map((_, i) => (
+                  <BookCardSkeleton key={i} />
+                ))}
+              </ScrollView>
+            ) : (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {/* Card */}
+                {previewBooks.map((item) => (
+                  <BookCard
+                    key={item.key}
+                    title={item.title}
+                    author={item.author_name?.[0]}
+                    coverId={item.cover_i}
+                    onPress={() => {
+                      router.push({
+                        pathname: `/detail/[id]`,
+                        params: { id: item.key?.replace('/works/', '') },
+                      })
+                    }}
+                  />
+                ))}
+              </ScrollView>
+            )}
+
           </ScrollView>
         </View>
 

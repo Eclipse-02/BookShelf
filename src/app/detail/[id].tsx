@@ -1,62 +1,31 @@
-import Header from '@/components/Header';
-import { api } from '@/services/api';
-import { ENDPOINTS } from '@/services/endpoints';
-import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import BookmarkButton from '@/components/BookmarkButton';
+import Header from '@/components/Header';
+import DetailSkeleton from '@/components/DetailSkeleton';
+import { useBookDetail } from '@/hooks/useBookDetails';
+import { useBookmarks } from '@/hooks/useBookmarks';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function DetailLayout() {
     const { id } = useLocalSearchParams();
+    const {
+        book,
+        author,
+        coverUrl,
+        releaseDate,
+        isLoading,
+    } = useBookDetail(id as string);
+    const { hydrated } = useBookmarks();
 
-    const [book, setBook] = useState<any>(null);
-    const [bookDate, setBookDate] = useState("");
-    const [bookCover, setBookCover] = useState("");
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const isLoaded = hydrated && !isLoading;
 
-    const getCoverUrl = (covers?: number[]) => {
-        if (!covers || covers.length === 0) {
-            return 'https://via.placeholder.com/300x450';
-        }
-        return `https://covers.openlibrary.org/b/id/${covers[0]}-M.jpg`;
-    };
-
-    const getDescription = (desc: any) => {
-        if (!desc) return 'No description available';
-        if (typeof desc === 'string') return desc;
-        if (desc.value) return desc.value;
-        return 'No description available';
-    };
-
-    const formatDate = (dateStr: string) => {
-        if (!dateStr) return 'Unknown';
-        const date = new Date(dateStr);
-        return isNaN(date.getTime()) ? 'Unknown' : date.toLocaleDateString();
+    if (!isLoaded) {
+        return <DetailSkeleton />;
     }
 
-    const fetchDetail = async () => {
-        try {
-            setError(null);
-            const res = await api.get(ENDPOINTS.workDetail(id as string));
-
-            setBook(res.data);
-            setBookDate(formatDate(res.data.created?.value));
-            setBookCover(getCoverUrl(res.data?.covers));
-            console.log('Book Detail:', res.data);
-        } catch (err: any) {
-            setError(err.message || 'Failed to fetch detail');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (id) fetchDetail();
-    }, [id]);
-
     return (
-        <SafeAreaView className="flex-1 bg-gray-50 ">
+        <SafeAreaView className="flex-1 bg-gray-50">
 
             {/* Header */}
             <Header isDetail={true} />
@@ -68,7 +37,7 @@ export default function DetailLayout() {
                     <View className="w-3/4">
                         <Image
                             source={{
-                                uri: bookCover,
+                                uri: coverUrl,
                             }}
                             className="w-full h-[400px] rounded-lg"
                             resizeMode="cover"
@@ -82,20 +51,23 @@ export default function DetailLayout() {
                         {book?.title}
                     </Text>
                     <Text className="text-lg text-gray-600 mb-2">
-                        Eleanor Vance
+                        {author?.name || 'Unknown Author'}
                     </Text>
                     <Text className="text-sm text-gray-400">
-                        First Published {bookDate || 'Unknown'}
+                        First Published: {releaseDate || 'Unknown'}
                     </Text>
                 </View>
 
                 {/* Actions */}
                 <View className="flex-row flex-wrap gap-3 mb-6 border-b border-gray-200 pb-4">
-                    <TouchableOpacity className="bg-black px-4 py-2 rounded-full">
-                        <Text className="text-white font-medium">
-                            Add to Favorites
-                        </Text>
-                    </TouchableOpacity>
+                    <BookmarkButton
+                        book={{
+                            key: `/works/${id}`,
+                            title: book?.title,
+                            author: author?.name,
+                            covers: book?.covers,
+                        }}
+                    />
 
                     <TouchableOpacity className="bg-gray-200 px-4 py-2 rounded-full">
                         <Text className="text-black">
@@ -111,7 +83,7 @@ export default function DetailLayout() {
                     </Text>
 
                     <Text className="text-gray-700 mb-3 leading-relaxed">
-                        {book?.description ? getDescription(book.description) : 'No description available'}
+                        {book?.description ? book.description : 'No description available'}
                     </Text>
                 </View>
 
