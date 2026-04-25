@@ -33,7 +33,7 @@ export default function BookListSkeleton({
         }
 
         return (
-            <View className="px-4 mt-4">
+            <View className="px-4 mt-4 mb-4">
                 {rows.map((row, rowIndex) => (
                     <View
                         key={rowIndex}
@@ -43,7 +43,6 @@ export default function BookListSkeleton({
                             <BookCardSkeleton key={colIndex} />
                         ))}
 
-                        {/* handle last row kosong */}
                         {row.length < numColumns && (
                             <View style={{ width: '48%' }} />
                         )}

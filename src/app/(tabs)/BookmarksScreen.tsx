@@ -18,7 +18,6 @@ export default function BookmarksScreen() {
   const { bookmarks, hydrated } = useBookmarks();
 
   const books = Object.values(bookmarks);
-  console.log('Books:', books);
 
   if (!hydrated) {
     return <BookListSkeleton count={6} horizontal={false} numColumns={2} />;

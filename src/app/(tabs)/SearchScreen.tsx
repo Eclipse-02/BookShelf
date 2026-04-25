@@ -1,18 +1,36 @@
-import { View, TextInput, ScrollView } from 'react-native';
-import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
-import SearchResultScreen from '@/components/SearchResultScreen';
 import SearchEmptyScreen from '@/components/SearchEmptyScreen';
+import SearchResultScreen from '@/components/SearchResultScreen';
+import { useBrowseSubjects } from '@/hooks/useBrowseSubjects';
+import { useSearchBooks } from '@/hooks/useSearchBooks';
+import { useSearchQuery } from '@/hooks/useSearchQuery';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function SearchScreen() {
-  const [query, setQuery] = useState('');
-  let check = query.trim() === '';
+  const {
+    query,
+    setQuery,
+    debouncedQuery,
+    isSearching
+  } = useSearchQuery();
 
-  useEffect(() => {
-    console.log('Search query:', query);
-    console.log('Search query:', check);
-  }, [query]);
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSearchBooks(debouncedQuery, isSearching);
+
+  const books = data?.pages.flatMap((page) => page.books) ?? [];
+
+  const total = data?.pages?.[0]?.total ?? 0;
+
+  const {
+    data: subjects,
+    isLoading: loadingSubjects,
+  } = useBrowseSubjects();
 
   return (
     <View className="flex-1 bg-gray-50 mt-12">
@@ -34,13 +52,34 @@ export default function SearchScreen() {
               placeholder="Search by title or author"
               className="border-b border-gray-800 pl-8 pb-2 text-lg"
             />
+
+            {query.length > 0 && (
+              <TouchableOpacity
+                onPress={() => setQuery('')}
+                className="absolute right-0 top-3"
+              >
+                <Ionicons name="close-circle" size={20} color="gray" />
+              </TouchableOpacity>
+            )}
+
           </View>
         </View>
 
-        {query.trim() === '' ? (
-          <SearchEmptyScreen />
+        {/* Main Content */}
+        {!isSearching ? (
+          <SearchEmptyScreen
+            data={subjects}
+            loading={loadingSubjects}
+          />
         ) : (
-          <SearchResultScreen />
+          <SearchResultScreen
+            books={books}
+            total={total}
+            loading={isLoading}
+            onLoadMore={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingMore={isFetchingNextPage}
+          />
         )}
 
       </ScrollView>
