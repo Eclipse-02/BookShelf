@@ -6,6 +6,7 @@ import { useBookDetail } from '@/hooks/useBookDetails';
 import { useBookmarks } from '@/hooks/useBookmarks';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
+import { mapBookToCategory } from '@/utils/mapSubject';
 
 export default function DetailLayout() {
     const { id } = useLocalSearchParams();
@@ -17,7 +18,6 @@ export default function DetailLayout() {
         isLoading,
     } = useBookDetail(id as string);
     const { hydrated } = useBookmarks();
-
     const isLoaded = hydrated && !isLoading;
 
     if (!isLoaded) {
@@ -66,6 +66,8 @@ export default function DetailLayout() {
                             title: book?.title,
                             author: author?.name,
                             covers: book?.covers,
+                            subjects: book?.subjects,
+                            categories: mapBookToCategory(book?.subjects),
                         }}
                     />
 

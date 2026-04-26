@@ -7,6 +7,8 @@ type Book = {
     title: string;
     author?: string;
     covers?: number[];
+    subjects?: string[];
+    categories?: string[];
 };
 
 type BookmarkStore = {

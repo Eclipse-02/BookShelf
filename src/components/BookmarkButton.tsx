@@ -7,6 +7,8 @@ type Props = {
         title: string;
         author?: string;
         covers?: number[];
+        subjects?: string[];
+        categories?: string[];
     };
 };
 
