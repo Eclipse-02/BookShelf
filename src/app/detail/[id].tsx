@@ -7,6 +7,8 @@ import { useBookmarks } from '@/hooks/useBookmarks';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import { mapBookToCategory } from '@/utils/mapSubject';
+import { Linking } from 'react-native';
+
 
 export default function DetailLayout() {
     const { id } = useLocalSearchParams();
@@ -23,6 +25,11 @@ export default function DetailLayout() {
     if (!isLoaded) {
         return <DetailSkeleton />;
     }
+
+    const openBook = (id: string) => {
+        const url = `https://openlibrary.org/works/${id}/borrow`;
+        Linking.openURL(url);
+    };
 
     return (
         <SafeAreaView className="flex-1 bg-gray-50">
@@ -71,9 +78,11 @@ export default function DetailLayout() {
                         }}
                     />
 
-                    <TouchableOpacity className="bg-gray-200 px-4 py-2 rounded-full">
+                    <TouchableOpacity
+                        onPress={() => openBook(id as string)}
+                        className="bg-gray-200 px-4 py-2 rounded-full">
                         <Text className="text-black">
-                            Read Sample
+                            Read Now
                         </Text>
                     </TouchableOpacity>
                 </View>
