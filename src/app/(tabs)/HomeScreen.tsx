@@ -12,6 +12,8 @@ import {
   View
 } from 'react-native';
 
+const SUBJECTS = ['Fiction', 'Science', 'History', 'Philosophy', 'Art'];
+
 export default function HomeScreen() {
   const {
     previewBooks,
@@ -39,9 +41,17 @@ export default function HomeScreen() {
         <View className="mb-8">
           <View className="flex-row justify-between items-center mb-3">
             <Text className="text-lg font-semibold">Trending Books</Text>
-            <TouchableOpacity className="flex-row items-center gap-1">
+            <TouchableOpacity
+              onPress={() => {
+                router.push({
+                  pathname: '/browse/[type]',
+                  params: { type: 'trending' },
+                })
+              }}
+              className="flex-row items-center gap-1"
+            >
               <Text className="text-blue-500">View all</Text>
-              <MaterialIcons name="arrow-forward" size={18} color="blue" />
+              <MaterialIcons name="arrow-forward" size={18} color="#3b82f6" />
             </TouchableOpacity>
           </View>
 
@@ -95,17 +105,18 @@ export default function HomeScreen() {
 
           <View className="flex-row flex-wrap justify-between">
 
-            {[
-              'Fiction',
-              'Science',
-              'History',
-              'Philosophy',
-              'Biography',
-              'Art',
-              'Technology',
-            ].map((subject, index) => (
+            {SUBJECTS.map((subject) => (
               <TouchableOpacity
-                key={index}
+                key={subject}
+                onPress={() => {
+                  router.push({
+                    pathname: '/browse/[type]',
+                    params: {
+                      type: 'subject',
+                      subject: subject.toLowerCase(),
+                    },
+                  })
+                }}
                 className="w-[48%] h-32 mb-4 bg-gray-100 rounded-xl justify-center items-center"
               >
                 <Text className="text-base font-medium">
@@ -116,8 +127,8 @@ export default function HomeScreen() {
           </View>
         </View>
 
-      </ScrollView>
+      </ScrollView >
 
-    </View>
+    </View >
   );
 }

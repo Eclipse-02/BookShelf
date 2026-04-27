@@ -39,9 +39,20 @@ export default function SearchEmptyScreen({ data = [], loading }: { data?: any[]
                                 <Text className="text-xl font-semibold">
                                     {section.subject}
                                 </Text>
-                                <TouchableOpacity className="flex-row items-center gap-1">
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        router.push({
+                                            pathname: '/browse/[type]',
+                                            params: {
+                                                type: 'subject',
+                                                subject: section.subject.toLowerCase(),
+                                            },
+                                        })
+                                    }}
+                                    className="flex-row items-center gap-1"
+                                >
                                     <Text className="text-blue-500">View all</Text>
-                                    <MaterialIcons name="arrow-forward" size={18} color="blue" />
+                                    <MaterialIcons name="arrow-forward" size={18} color="#3b82f6" />
                                 </TouchableOpacity>
                             </View>
 

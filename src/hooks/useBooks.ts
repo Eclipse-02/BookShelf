@@ -19,7 +19,7 @@ export function useBooks() {
     const query = useQuery({
         queryKey: ['homeBooks'],
         queryFn: async () => {
-            const res = await api.get<Response>(ENDPOINTS.trending);
+            const res = await api.get<Response>(ENDPOINTS.trending(1));
             return res.data.works || [];
         },
     });

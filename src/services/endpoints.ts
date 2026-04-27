@@ -1,6 +1,6 @@
 export const ENDPOINTS = {
-    trending: '/trending/daily.json',
-    subjects: '/subjects.json',
+    trending: (page = 1) => `/trending/weekly.json?page=${page}`,
+    subjectBooks: (subject: string, page = 1) => `/subjects/${subject}.json?limit=20&offset=${(page - 1) * 20}`,
     author: (id: string) => `/authors/${id}.json`,
     subjectDetail: (subject: string, limit: number) => `/subjects/${subject}.json?limit=${limit}`,
     workDetail: (id: string) => `/works/${id}.json`,
