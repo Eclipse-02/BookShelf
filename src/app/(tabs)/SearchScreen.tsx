@@ -8,8 +8,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { useRef, useState } from 'react';
 import { MotiView } from 'moti';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function SearchScreen() {
+  const { isDark } = useTheme();
+
   const {
     query,
     setQuery,
@@ -37,7 +40,7 @@ export default function SearchScreen() {
   } = useBrowseSubjects();
 
   return (
-    <View className="flex-1 bg-gray-50 mt-12">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-800 mt-12">
 
       {/* Header */}
       <Header />
@@ -56,14 +59,14 @@ export default function SearchScreen() {
         {/* Search Input */}
         <View className="mb-4">
           <View className="relative">
-            <Ionicons name="search" size={20} color="black" className="absolute left-0 top-3 text-gray-400" />
+            <Ionicons name="search" size={20} color={isDark ? "white" : "black"} className="absolute left-0 top-3" />
 
             <TextInput
               value={query}
               onChangeText={setQuery}
               ref={inputRef}
               placeholder="Search by title or author"
-              className="border-b border-gray-800 pl-8 pb-2 text-lg"
+              className="border-b border-gray-800 dark:border-gray-200 pl-8 pb-2 text-lg dark:text-white dark:placeholder:text-white"
             />
 
             {query.length > 0 && (
@@ -75,7 +78,7 @@ export default function SearchScreen() {
                 }}
                 className="absolute right-0 top-3"
               >
-                <Ionicons name="close-circle" size={20} color="gray" />
+                <Ionicons name="close-circle" size={20} color={isDark ? "white" : "black"} />
               </TouchableOpacity>
             )}
 
@@ -110,9 +113,9 @@ export default function SearchScreen() {
             onPress={() =>
               scrollRef.current?.scrollTo({ y: 0, animated: true })
             }
-            className="absolute bottom-6 right-6 bg-black p-3 rounded-full shadow-lg"
+            className="absolute bottom-6 right-6 bg-black dark:bg-white p-3 rounded-full shadow-lg"
           >
-            <Ionicons name="arrow-up" size={20} color="white" />
+            <Ionicons name="arrow-up" size={20} color={isDark ? "black" : "white"} />
           </TouchableOpacity>
         </MotiView>
       )}

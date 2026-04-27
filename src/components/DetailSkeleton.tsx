@@ -6,7 +6,7 @@ import Header from '@/components/Header';
 
 export default function DetailSkeleton() {
     return (
-        <SafeAreaView className="flex-1 bg-gray-50">
+        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
 
             <Header isDetail />
 
@@ -29,7 +29,7 @@ export default function DetailSkeleton() {
                 </View>
 
                 {/* Actions */}
-                <View className="flex-row gap-3 mb-6 border-b border-gray-200 pb-4">
+                <View className="flex-row gap-3 mb-6 border-b border-gray-200 dark:border-gray-600 pb-4">
                     <Skeleton width={160} height={40} radius={999} />
                     <Skeleton width={140} height={40} radius={999} />
                 </View>

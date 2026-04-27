@@ -26,10 +26,10 @@ export default function BookCard({ title, author, coverId, onPress }: Props) {
                 />
             </View>
 
-            <Text className="font-semibold" numberOfLines={1}>
+            <Text className="font-semibold dark:text-white" numberOfLines={1}>
                 {title}
             </Text>
-            <Text className="text-gray-500 text-sm" numberOfLines={1}>
+            <Text className="text-gray-500 text-sm dark:text-gray-400" numberOfLines={1}>
                 {author || 'Unknown Author'}
             </Text>
         </TouchableOpacity>

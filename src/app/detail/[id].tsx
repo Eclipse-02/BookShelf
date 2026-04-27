@@ -9,7 +9,6 @@ import { useLocalSearchParams } from 'expo-router';
 import { mapBookToCategory } from '@/utils/mapSubject';
 import { Linking } from 'react-native';
 
-
 export default function DetailLayout() {
     const { id } = useLocalSearchParams();
     const {
@@ -32,7 +31,7 @@ export default function DetailLayout() {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-gray-50">
+        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-800">
 
             {/* Header */}
             <Header isDetail={true} />
@@ -54,19 +53,19 @@ export default function DetailLayout() {
 
                 {/* Title & Meta */}
                 <View className="mb-6">
-                    <Text className="text-2xl font-bold mb-1">
+                    <Text className="text-2xl dark:text-white font-bold mb-1">
                         {book?.title}
                     </Text>
-                    <Text className="text-lg text-gray-600 mb-2">
+                    <Text className="text-lg text-gray-600 dark:text-gray-400 mb-2">
                         {author?.name || 'Unknown Author'}
                     </Text>
-                    <Text className="text-sm text-gray-400">
+                    <Text className="text-sm text-gray-400 dark:text-gray-200">
                         First Published: {releaseDate || 'Unknown'}
                     </Text>
                 </View>
 
                 {/* Actions */}
-                <View className="flex-row flex-wrap gap-3 mb-6 border-b border-gray-200 pb-4">
+                <View className="flex-row flex-wrap gap-3 mb-6 border-b border-gray-200 dark:border-gray-600 pb-4">
                     <BookmarkButton
                         book={{
                             key: `/works/${id}`,
@@ -89,11 +88,11 @@ export default function DetailLayout() {
 
                 {/* Synopsis */}
                 <View>
-                    <Text className="text-sm font-semibold uppercase tracking-wider mb-3">
+                    <Text className="text-sm dark:text-white font-semibold uppercase tracking-wider mb-3">
                         Synopsis
                     </Text>
 
-                    <Text className="text-gray-700 mb-3 leading-relaxed">
+                    <Text className="text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
                         {book?.description ? book.description : 'No description available'}
                     </Text>
                 </View>

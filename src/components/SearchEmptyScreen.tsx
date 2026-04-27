@@ -12,10 +12,10 @@ export default function SearchEmptyScreen({ data = [], loading }: { data?: any[]
         <View>
 
             <View className="mt-6 mb-6">
-                <Text className="text-3xl font-semibold">
+                <Text className="text-3xl font-semibold dark:text-white">
                     Browse by Category
                 </Text>
-                <Text className="text-gray-500 mt-2">
+                <Text className="text-gray-500 dark:text-gray-400 mt-2">
                     Discover new worlds, explore fresh perspectives, and find your next great read curated just for you.
                 </Text>
             </View>
@@ -27,7 +27,7 @@ export default function SearchEmptyScreen({ data = [], loading }: { data?: any[]
             ) : sections.length === 0 ? (
                 <View className="flex-1 justify-center items-center mt-10">
                     <Ionicons name="search" size={48} color="#999" />
-                    <Text className="text-gray-500 mt-4">No categories available right now.</Text>
+                    <Text className="text-gray-500 dark:text-gray-400 mt-4">No categories available right now.</Text>
                 </View>
             ) : (
                 sections.map((section: any) => {
@@ -36,7 +36,7 @@ export default function SearchEmptyScreen({ data = [], loading }: { data?: any[]
                     return (
                         <View key={section.subject} className="mb-8">
                             <View className="flex-row justify-between items-center mb-4">
-                                <Text className="text-xl font-semibold">
+                                <Text className="text-xl font-semibold dark:text-white">
                                     {section.subject}
                                 </Text>
                                 <TouchableOpacity
@@ -51,7 +51,7 @@ export default function SearchEmptyScreen({ data = [], loading }: { data?: any[]
                                     }}
                                     className="flex-row items-center gap-1"
                                 >
-                                    <Text className="text-blue-500">View all</Text>
+                                    <Text className="text-blue-600 dark:text-blue-400">View all</Text>
                                     <MaterialIcons name="arrow-forward" size={18} color="#3b82f6" />
                                 </TouchableOpacity>
                             </View>

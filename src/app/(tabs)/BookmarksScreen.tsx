@@ -14,10 +14,12 @@ import { router } from 'expo-router';
 import BookCard from "@/components/BookCard";
 import { SUBJECT_MAP } from "@/constants/subjectMap";
 import { MotiView } from "moti";
+import { useTheme } from "@/hooks/useTheme";
 
 const FILTERS = ['All', ...Object.keys(SUBJECT_MAP)];
 
 export default function BookmarksScreen() {
+  const { isDark } = useTheme();
   const { bookmarks, hydrated } = useBookmarks();
 
   const books = Object.values(bookmarks);
@@ -58,7 +60,7 @@ export default function BookmarksScreen() {
   };
 
   return (
-    <View className="flex-1 bg-gray-50 mt-12">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-800 mt-12">
       {/* Header */}
       <Header />
 
@@ -74,10 +76,10 @@ export default function BookmarksScreen() {
       >
 
         <View className="px-4 pt-4">
-          <Text className="text-2xl font-semibold text-gray-900">
+          <Text className="text-2xl font-semibold text-gray-900 dark:text-white">
             Your Bookmarks
           </Text>
-          <Text className="text-gray-500 mt-2">
+          <Text className="text-gray-500 dark:text-gray-400 mt-2">
             A curated collection of your most cherished reads.
           </Text>
 
@@ -91,10 +93,10 @@ export default function BookmarksScreen() {
                   <TouchableOpacity
                     key={filter}
                     onPress={() => setActiveFilter(filter)}
-                    className={`px-4 py-2 rounded-full ${isActive ? 'bg-gray-900' : 'bg-gray-200'}`}
+                    className={`px-4 py-2 rounded-full ${isActive ? 'bg-gray-900 dark:bg-white' : 'bg-gray-200 dark:bg-gray-600'}`}
                   >
                     <Text
-                      className={`text-xs ${isActive ? 'text-white font-semibold' : 'text-black'}`}
+                      className={`text-xs ${isActive ? 'text-white dark:text-black font-semibold' : 'text-black dark:text-white'}`}
                     >
                       {filter}
                     </Text>
@@ -110,12 +112,12 @@ export default function BookmarksScreen() {
           ) : books.length === 0 ? (
             <View className="flex-1 justify-center items-center mt-10">
               <Ionicons name="bookmark-outline" size={48} color="#999" />
-              <Text className="text-gray-500 mt-4">No bookmarks yet</Text>
+              <Text className="text-gray-500 dark:text-gray-400 mt-4">No bookmarks yet</Text>
             </View>
           ) : filteredBooks.length === 0 ? (
             <View className="flex-1 justify-center items-center mt-10">
               <Ionicons name="bookmark-outline" size={48} color="#999" />
-              <Text className="text-gray-500 mt-4">No books in "{activeFilter}"</Text>
+              <Text className="text-gray-500 dark:text-gray-400 mt-4">No books in "{activeFilter}"</Text>
             </View>
           ) : (
             <FlatList
@@ -144,9 +146,9 @@ export default function BookmarksScreen() {
               onPress={() =>
                 scrollRef.current?.scrollTo({ y: 0, animated: true })
               }
-              className="absolute bottom-6 right-6 bg-black p-3 rounded-full shadow-lg"
+              className="absolute bottom-6 right-6 bg-black dark:bg-white p-3 rounded-full shadow-lg"
             >
-              <Ionicons name="arrow-up" size={20} color="white" />
+              <Ionicons name="arrow-up" size={20} color={isDark ? "black" : "white"} />
             </TouchableOpacity>
           </MotiView>
         )}

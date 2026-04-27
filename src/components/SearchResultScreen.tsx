@@ -4,6 +4,7 @@ import BookCard from '@/components/BookCard';
 import BookListSkeleton from '@/components/BookListSkeleton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
+import { useTheme } from '@/hooks/useTheme';
 
 type Props = {
     books: any[];
@@ -22,11 +23,12 @@ export default function SearchResultScreen({
     hasNextPage,
     isFetchingMore,
 }: Props) {
+    const { isDark } = useTheme();
     if (!loading && books.length === 0) {
         return (
             <View className="flex-1 justify-center items-center mt-10">
-                <Ionicons name="search" size={48} color="#999" />
-                <Text className="text-gray-500 mt-4">No results found for</Text>
+                <Ionicons name="search" size={48} color={isDark ? "gray" : "lightgray"} />
+                <Text className="text-gray-500 dark:text-gray-400 mt-4">No results found</Text>
             </View>
         );
     }
@@ -54,11 +56,11 @@ export default function SearchResultScreen({
         <View>
             {/* Results Header */}
             <View className="flex-row justify-between items-end mb-4">
-                <Text className="text-lg font-semibold">Results</Text>
+                <Text className="text-lg font-semibold dark:text-white">Results</Text>
                 {loading ? (
-                    <Text className="text-sm text-gray-500">Loading...</Text>
+                    <Text className="text-sm text-gray-600 dark:text-gray-400">Loading...</Text>
                 ) : (
-                    <Text className="text-sm text-gray-500">{total} found</Text>
+                    <Text className="text-sm text-gray-600 dark:text-gray-400">{total} found</Text>
                 )}
             </View>
 

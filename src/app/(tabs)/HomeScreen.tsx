@@ -25,7 +25,7 @@ export default function HomeScreen() {
   } = useBooks();
 
   return (
-    <View className="flex-1 bg-gray-50 mt-12">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-800 mt-12">
 
       {/* Header */}
       <Header />
@@ -40,7 +40,7 @@ export default function HomeScreen() {
         {/* Trending Section */}
         <View className="mb-8">
           <View className="flex-row justify-between items-center mb-3">
-            <Text className="text-lg font-semibold">Trending Books</Text>
+            <Text className="text-lg font-semibold dark:text-white">Trending Books</Text>
             <TouchableOpacity
               onPress={() => {
                 router.push({
@@ -50,7 +50,7 @@ export default function HomeScreen() {
               }}
               className="flex-row items-center gap-1"
             >
-              <Text className="text-blue-500">View all</Text>
+              <Text className="text-blue-600 dark:text-blue-400">View all</Text>
               <MaterialIcons name="arrow-forward" size={18} color="#3b82f6" />
             </TouchableOpacity>
           </View>
@@ -60,9 +60,9 @@ export default function HomeScreen() {
             {/* Error Message */}
             {isError &&
               <View className="flex-1 w-[90vw] justify-center items-center px-4">
-                <Text className="text-red-500 text-center">{(error as Error).message || 'An error occurred'}</Text>
+                <Text className="text-red-600 dark:text-red-400 text-center">{(error as Error).message || 'An error occurred'}</Text>
                 <TouchableOpacity onPress={() => refetch()}>
-                  <Text className="mt-3 text-blue-500">Tap to retry</Text>
+                  <Text className="mt-3 text-blue-600 dark:text-blue-400">Tap to retry</Text>
                 </TouchableOpacity>
               </View>
             }
@@ -99,7 +99,7 @@ export default function HomeScreen() {
 
         {/* Subjects Section */}
         <View className="mb-8">
-          <Text className="text-lg font-semibold mb-4">
+          <Text className="text-lg font-semibold mb-4 dark:text-white">
             Popular Subjects
           </Text>
 
@@ -117,9 +117,9 @@ export default function HomeScreen() {
                     },
                   })
                 }}
-                className="w-[48%] h-32 mb-4 bg-gray-100 rounded-xl justify-center items-center"
+                className="w-[48%] h-32 mb-4 bg-gray-100 dark:bg-gray-900 rounded-xl justify-center items-center"
               >
-                <Text className="text-base font-medium">
+                <Text className="text-base font-medium dark:text-white">
                   {subject}
                 </Text>
               </TouchableOpacity>
