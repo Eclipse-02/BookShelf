@@ -11,7 +11,7 @@ function getCoverUrl(covers?: number[]) {
     const id = getValidCoverId(covers);
     return id
         ? `https://covers.openlibrary.org/b/id/${id}-M.jpg`
-        : 'https://via.placeholder.com/300x450';
+        : false;
 }
 
 function formatReleaseDate(dateStr?: string) {

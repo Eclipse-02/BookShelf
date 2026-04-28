@@ -10,18 +10,16 @@ interface Props {
 const getCoverUrl = (coverId?: number) =>
     coverId
         ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
-        : 'https://via.placeholder.com/100x150';
+        : false;
 
 export default function BookCard({ title, author, coverId, onPress }: Props) {
     return (
         <TouchableOpacity
-        onPress={onPress}
-        className="w-44 mr-4">
+            onPress={onPress}
+            className="w-44 mr-4">
             <View className="w-full h-64 rounded-lg overflow-hidden bg-gray-200 mb-2">
                 <Image
-                    source={{
-                        uri: getCoverUrl(coverId),
-                    }}
+                    source={coverId ? { uri: getCoverUrl(coverId) } : require('@/assets/images/empty_image.png')}
                     className="w-full h-full"
                 />
             </View>

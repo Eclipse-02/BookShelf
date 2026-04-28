@@ -42,9 +42,7 @@ export default function DetailLayout() {
                 <View className="items-center mb-6">
                     <View className="w-3/4">
                         <Image
-                            source={{
-                                uri: coverUrl,
-                            }}
+                            source={coverUrl ? { uri: coverUrl } : require('@/assets/images/empty_image.png')}
                             className="w-full h-[400px] rounded-lg"
                             resizeMode="cover"
                         />
