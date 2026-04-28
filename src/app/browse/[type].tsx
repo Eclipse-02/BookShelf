@@ -55,13 +55,13 @@ export default function BrowseScreen() {
     };
 
     return (
-        <View className="flex-1 bg-gray-50 mt-12">
+        <View className="flex-1 bg-gray-50 dark:bg-gray-800 mt-12">
             {/* Header */}
             <Header isDetail />
 
             {/* Content */}
             <View className="px-4 pt-4">
-                <Text className="text-2xl font-semibold mb-4">
+                <Text className="text-2xl dark:text-white font-semibold mb-4">
                     {title}
                 </Text>
 
